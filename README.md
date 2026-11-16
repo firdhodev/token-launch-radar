@@ -1,5 +1,25 @@
-# Token Radar 01
+# token-launch-radar
 
-A static launch radar that ranks every pre-token watchlist protocol and adds early protocols below the TVL floor. The implied value model uses only the sealed snapshot: TVL, clamped seven-day growth, and days since listing. The local dashboard includes sortable rankings, category, chain, and cohort filters, search, and a per-protocol valuation breakdown and interaction plan.
+[![make.fun · token-radar-01](https://make.fun/badge/token-radar-01.svg)](https://make.fun/bounty/token-radar-01?utm_source=github&utm_medium=readme&utm_campaign=token-radar-01)
 
-Build with Node 22 using `MAKEFUN_OUTPUT_DIR=out node main.ts --input /path/to/snapshot.json`. The generated `out/` contains the board, browser data, static dashboard, screenshots, and dossier.
+A token launch radar dashboard built for the [token-radar-01](https://make.fun/bounty/token-radar-01) competition on make.fun.
+
+## How to run
+
+```bash
+npm install
+node main.ts
+```
+
+Outputs `out/board.json`, `out/dossier.json`, and `out/data.js` (dashboard).
+
+## Stack
+
+- **main.ts** — entrypoint + pipeline
+- **lib/model.ts** — radar scoring model
+- **dashboard/** — dashboard assets
+- **out/** — generated outputs + screenshots
+
+## License
+
+MIT — see [LICENSE](LICENSE).
