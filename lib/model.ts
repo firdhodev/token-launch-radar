@@ -93,6 +93,7 @@ export interface BoardRow {
   gecko_id: string | null;
   symbol: string | null;
   token_status: 'pre-token';
+  tier: 'watchlist' | 'early';
   age_days: number | null;
   implied_value_usd: number;
   model: {
@@ -120,6 +121,9 @@ export interface RadarRow {
   implied_value_usd: number;
   growth_multiplier: number;
   maturity_multiplier: number;
+  tier: 'watchlist' | 'early';
+  model: BoardRow['model'];
+  farm_steps: string[];
 }
 
 /** A live-token protocol: it already trades, so the board shows the market's own value, not a model's. */
@@ -229,6 +233,7 @@ export function buildBoard(snapshot: Snapshot, model: ModelConstants = MODEL): B
     .slice(0, EARLY_ROWS);
   for (const p of early) chosen.set(p.slug, p);
 
+  const watchlist = new Set(snapshot.watchlist);
   const scored = [...chosen.values()].map((p) => {
     const { implied, growthPct, growthMult, maturityMult, age } = impliedValue(p, snapshot.as_of, model);
     return { p, implied, growthPct, growthMult, maturityMult, age };
@@ -247,6 +252,7 @@ export function buildBoard(snapshot: Snapshot, model: ModelConstants = MODEL): B
     gecko_id: s.p.gecko_id,
     symbol: s.p.symbol,
     token_status: 'pre-token',
+    tier: watchlist.has(s.p.slug) ? 'watchlist' : 'early',
     age_days: s.age,
     implied_value_usd: s.implied,
     model: {
@@ -384,6 +390,9 @@ export function radarRow(row: BoardRow): RadarRow {
     implied_value_usd: row.implied_value_usd,
     growth_multiplier: row.model.growth_multiplier,
     maturity_multiplier: row.model.maturity_multiplier,
+    tier: row.tier,
+    model: row.model,
+    farm_steps: row.farm_steps,
   };
 }
 
