@@ -8,6 +8,8 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, statSyn
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { boardIssue, buildRadar, dataScript, parseSnapshot } from './lib/model.ts';
+import { summarize } from './lib/signals.ts';
+import { headline } from './lib/enrich.ts';
 import { buildDossier } from './vendor/makefun-board.ts';
 
 const here = fileURLToPath(new URL('.', import.meta.url));
@@ -44,6 +46,7 @@ if (issue !== null) {
 mkdirSync(out, { recursive: true });
 writeFileSync(join(out, 'board.json'), `${JSON.stringify({ rows: board })}\n`);
 writeFileSync(join(out, 'data.js'), dataScript(radar));
+const signalRows = board.map((row) => ({ slug: row.slug, tvl_usd: row.tvl_usd, change_7d: row.change_7d, age_days: row.age_days, implied_value_usd: row.implied_value_usd }));
 
 /** Copy regular files at one directory level, ignoring dot names. */
 function copyFiles(from: string, to: string): string[] {
