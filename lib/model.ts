@@ -80,6 +80,10 @@ export const MODEL: ModelConstants = {
 /** The model's version label. */
 export const MODEL_VERSION = 'radar-2-bounded-score';
 
+/** The value equation printed by the entry point and dashboard. */
+export const MODEL_FORMULA =
+  'implied = round(TVL x category-median live mcap/TVL x growthScore x ageScore x sizeScore)';
+
 /** How many pre-token protocols below the watchlist floor the early radar carries, by TVL. */
 export const EARLY_ROWS = 160;
 
